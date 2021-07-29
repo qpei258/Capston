@@ -6,7 +6,7 @@ import client_new as c
 from PIL import ImageTk, Image
 from tempcheck import tempcheck
 
-tempCurrent = 35.0
+tempCurrent = 0
 photoTrigger = 0
 
 #시간 및 체온 갱신 함수
@@ -45,7 +45,8 @@ def video_play():
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         roi_gray = frame[y:y + h, x:x + h]
         roi_color = frame[y:y + h, x:x + w]
-        if photoTrigger != 3 :
+
+        if photoTrigger != 10 :
             photoTrigger += 1
         else :
             cv2.imwrite('test.jpg', photo)
@@ -55,10 +56,10 @@ def video_play():
 
 def processing():
     if os.path.isfile('test.jpg'):
-#        result = c.sendImage()
-#        os.remove('test.jpg')
         if tempCurrent < 37.5 :
             print("정상 체온입니다.")
+            #        result = c.sendImage()
+            #        os.remove('test.jpg')
             set_state(result)
             trigger_reset()
         else :
@@ -76,13 +77,14 @@ def set_state(result) :
     if result == 1:
         statelabel.config(text="인증되었습니다.")
         door_control()
+        time.sleep(1.5)
     else :
         statelabel.config(text="인증에 실패하였습니다.")
     time.sleep(1.5)
 
 
 def trigger_reset():
-    tempCurrent = 35.0
+    tempCurrent = 0
     photoTrigger = 0
     statelabel.config(text="")
 
@@ -121,7 +123,7 @@ statelabel =  tk.Label(massegeframe, text="상태 메시지")
 statelabel.pack(expand="True")
 
 #체온라벨
-tampcurrent = tk.Label(tampframe, text="36.7C", font=("times", "25"))
+tampcurrent = tk.Label(tampframe, text=str(tempCurrent)+ "°C", font=("times", "25"))
 tampcurrent.pack(expand="True")
 
 #OpenCV->Tkinter변환용 라벨
