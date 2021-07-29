@@ -80,7 +80,7 @@ def set_state(result) :
         time.sleep(1.5)
     else :
         statelabel.config(text="인증에 실패하였습니다.")
-    time.sleep(1.5)
+        time.sleep(1.5)
 
 
 def trigger_reset():
