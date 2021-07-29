@@ -46,12 +46,12 @@ def video_play():
         roi_gray = frame[y:y + h, x:x + h]
         roi_color = frame[y:y + h, x:x + w]
 
-        if photoTrigger != 10 :
+        if photoTrigger != 15 :
             photoTrigger += 1
         else :
             cv2.imwrite('test.jpg', photo)
             if os.path.isfile('test.jpg'):
-                time.sleep(0.5)
+                time.sleep(0.3)
 
 
 def processing():
@@ -68,9 +68,8 @@ def processing():
             trigger_reset()
     win.after(1000, processing)
 
-def door_control() :
+#def door_control() :
 #서보모터 처리
-    trigger_reset()
 
 
 def set_state(result) :
@@ -119,7 +118,7 @@ timelabel = tk.Label(dateframe, text="", font=("times", "14"))
 timelabel.pack(expand="True")
 
 #상태 메시지 라벨
-statelabel =  tk.Label(massegeframe, text="상태 메시지")
+statelabel =  tk.Label(massegeframe, text="")
 statelabel.pack(expand="True")
 
 #체온라벨
