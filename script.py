@@ -45,7 +45,7 @@ def video_play():
         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
         roi_gray = frame[y:y + h, x:x + h]
         roi_color = frame[y:y + h, x:x + w]
-        if photoTrigger < 3 :
+        if photoTrigger != 3 :
             photoTrigger += 1
         else :
             cv2.imwrite('test.jpg', photo)
@@ -59,11 +59,12 @@ def processing():
 #        os.remove('test.jpg')
         if tempCurrent < 37.5 :
             print("정상 체온입니다.")
-            door_control()
+            set_state(result)
+            trigger_reset()
         else :
             statelabel.config(text="체온 이상 감지.\n인증에 실패하였습니다.")
-        time.sleep(1.5)
-        trigger_reset()
+            time.sleep(1.5)
+            trigger_reset()
     win.after(1000, processing)
 
 def door_control() :
@@ -74,10 +75,10 @@ def door_control() :
 def set_state(result) :
     if result == 1:
         statelabel.config(text="인증되었습니다.")
+        door_control()
     else :
         statelabel.config(text="인증에 실패하였습니다.")
     time.sleep(1.5)
-    trigger_reset()
 
 
 def trigger_reset():
