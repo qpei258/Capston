@@ -58,7 +58,7 @@ def processing():
     if os.path.isfile('test.jpg'):
         if tempCurrent < 37.5 :
             print("정상 체온입니다.")
-            #        result = c.sendImage()
+            #        result = c.send_image()
             #        os.remove('test.jpg')
             set_state(result)
             trigger_reset()
