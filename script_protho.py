@@ -1,9 +1,14 @@
 import tkinter as tk
+import door_control as dc
 import time
 import cv2
 import os
 from PIL import ImageTk, Image
 from tempcheck import tempcheck
+
+tempCurrent = 0
+photoTrigger = 0
+labelon = True
 
 #화면 갱신 함수
 def reset():
@@ -16,6 +21,7 @@ def reset():
 
 def processing():
     global tempCurrent
+    global lavelon
     if tempCurrent <= tempcheck() :
                 tempCurrent = tempcheck()
     if os.path.isfile('test.jpg'):
@@ -28,6 +34,7 @@ def processing():
         else :
             statelabel.config(text="체온 이상 감지.\n인증에 실패하였습니다.")
         os.remove('test.jpg')
+        lavelon = True
         trigger_reset()
     win.after(1000, processing)
 
@@ -36,11 +43,9 @@ def set_state(result) :
     if result == 1:
         statelabel.config(text="인증되었습니다.")
         print("인증되었습니다.")
-#         door_control()
-
+        dc.control()
     else :
         statelabel.config(text="인증에 실패하였습니다.")
-
 
 
 def trigger_reset():
@@ -50,12 +55,14 @@ def trigger_reset():
     photoTrigger = 0
     
 
-
 def label_reset():
-    if statelabel.cget("text") != "" :
+    global lavelon
+    if lavelon == True :
         statelabel.config(text="")
         tampcurrent.config(text="")
-    win.after(10000, label_reset)
+        lavelon = False
+        time.sleep(3)
+    win.after(0.5, label_reset)
 
 #실시간 화면 송출 및 사진 촬영 함수
 def video_play():
@@ -145,9 +152,6 @@ tampcurrent.pack(expand="True")
 #OpenCV->Tkinter변환용 라벨
 falselabel = tk.Label(cameraframe)
 falselabel.grid()
-
-tempCurrent = 0
-photoTrigger = 0
 
 cap = cv2.VideoCapture(-1)
 cap.set(3, 300)
