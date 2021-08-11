@@ -105,6 +105,11 @@ win.title("출입 시스템")
 win.geometry("800x480")
 win.resizable(False, False)
 
+#전체화면
+win.attributes("-fullscreen", True)
+win.bind("<F11>", lambda event: win.attributes("-fullscreen", not win.attributes("-fullscreen")))
+win.bind("<Escape>", lambda event: win.attributes("-fullscreen", False))
+
 faceCascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_default.xml')
 
 #동영상 프레임
