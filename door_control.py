@@ -7,10 +7,9 @@ def control():
 
     GPIO.setup(door, GPIO.OUT, initial=GPIO.LOW)
 
-    while True:
-        GPIO.output(door, GPIO.HIGH)
-        time.sleep(0.5)
-        GPIO.output(door, GPIO.LOW)
-        time.sleep(0.5)
+    GPIO.output(door, GPIO.HIGH)
+    time.sleep(0.5)
+    GPIO.output(door, GPIO.LOW)
+    time.sleep(0.5)
 
     GPIO.cleanup()
