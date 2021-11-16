@@ -25,13 +25,7 @@ def processing(img):
 # 안면 인식 후 촬영한 사진이 존재하고, 체온 이상이 없다면 서버로 사진을 전송
 # 전송 후 서버의 처리 결과를 리턴
 
-def cv_face_check():
-    faceCascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_default.xml')
-    cap = cv2.VideoCapture(-1)
-    cap.set(3, 480)  # set Width
-    cap.set(4, 700)  # set Height
-    #카메라 세팅 및 화면 크기 설정
-
+def cv_face_check(cap, faceCascade):
     while True:
         if os.path.isfile('test.jpg'):
             os.remove('test.jpg')
@@ -65,4 +59,9 @@ def cv_face_check():
 
 tempCurrent = 0
 photoTrigger = 0
+
+faceCascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_default.xml')
+cap = cv2.VideoCapture(-1)
+cap.set(3, 480)  # set Width
+cap.set(4, 700)  # set Height
 
