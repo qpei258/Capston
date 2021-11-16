@@ -8,18 +8,18 @@ from tempcheck import tempcheck
 
 
 def processing(img):
-    cv2.imwrite('test.jpg', img)
-    tempCurrent = tampcheck()
-    
-    if os.path.isfile('test.jpg') and tempCurrent < 37.5:
+    tempCurrent = tampcheck()    
+    if tempCurrent < 37.5:
+        cv2.imwrite('test.jpg', img)
         result = cn.send_img().split('@')
         cv2.putText(img, result, (240, 100), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0))
         cv2.putText(img, str(tempCurrent), (240, 500), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0))
-    else :
+        else :
         cv2.putText(img, "체온 이상!", (240, 100), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0))
         cv2.putText(img, str(tempCurrent), (240, 500), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 0))
     photoTrigger = 0
-    dc.door_control()
+    if result != ‘안면 인식 실패’:
+        dc.door_control()
     return img
     
 # 안면 인식 후 촬영한 사진이 존재하고, 체온 이상이 없다면 서버로 사진을 전송
