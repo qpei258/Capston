@@ -21,9 +21,6 @@ def processing(img):
     if result != ‘안면 인식 실패’:
         dc.door_control()
     return img
-    
-# 안면 인식 후 촬영한 사진이 존재하고, 체온 이상이 없다면 서버로 사진을 전송
-# 전송 후 서버의 처리 결과를 리턴
 
 def cv_face_check(cap, faceCascade):
     while True:
@@ -32,7 +29,7 @@ def cv_face_check(cap, faceCascade):
             time.sleep(2)
             tempCurrent = 0
         ret, img = cap.read()
-        img = cv2.flip(img, -1)  # 상하반전
+        img = cv2.flip(img, -1)
         faces = faceCascade.detectMultiScale(
             img,
             scaleFactor=1.2,
@@ -49,9 +46,9 @@ def cv_face_check(cap, faceCascade):
                 photoTrigger += 1
             else:
                 process()
-        cv2.imshow('video', img)  #화면에 이미지 출력
+        cv2.imshow('video', img)  
         k = cv2.waitKey(30) & 0xff
-        if k == 27:  # press 'ESC' to quit # ESC를 누르면 종료
+        if k == 27:  # press 'ESC' to quit
             break
 
     cap.release()
